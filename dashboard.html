@@ -3,10 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Credix Dashboard</title>
+    <title>Credix Dashboard</title>
+    <!-- Use FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-    
+
+<div class="phone">
+
+    <!-- DASHBOARD SCREEN -->
+    <section id="dashboard" class="screen active">
+        <div class="dashboard-header-bg"></div>
+
+        <header>
+            <h1>CREDIX</h1>
+            <div style="position: relative;">
+                <i class="fas fa-bell" style="color: white; font-size: 20px;"></i>
+                <span
+                    style="position: absolute; top: -5px; right: -5px; background: #FF5252; width: 10px; height: 10px; border-radius: 50%;"></span>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Balance Card -->
+            <div class="balance-card">
+                <p class="label">Available balance</p>
+                <h2 class="balance" id="balance">$123,456</h2>
+                <div class="card-footer">
+                    <span>**** 1234</span>
+                    <span style="font-weight:bold; font-style:italic;">VISA</span>
+                </div>
+            </div>
+
+            <!-- Action Grid -->
+            <div class="action-grid">
+                <button class="action-item" onclick="showScreen('transfer')">
+                    <div class="icon-box"><i class="fas fa-paper-plane"></i></div>
+                    <span>Transfer</span>
+                </button>
+                <button class="action-item" onclick="showScreen('pay')">
+                    <div class="icon-box"><i class="fas fa-file-invoice-dollar"></i></div>
+                    <span>Pay Bill</span>
+                </button>
+                <button class="action-item" onclick="showScreen('rates')">
+                    <div class="icon-box"><i class="fas fa-exchange-alt"></i></div>
+                    <span>Rates</span>
+                </button>
+                <button class="action-item" onclick="showScreen('deposit')">
+                    <div class="icon-box"><i class="fas fa-wallet"></i></div>
+                    <span>Deposit</span>
+                </button>
+                <button class="action-item">
+                    <div class="icon-box"><i class="fas fa-history"></i></div>
+                    <span>History</span>
+                </button>
+                <button class="action-item" onclick="showScreen('more')">
+                    <div class="icon-box"><i class="fas fa-th-large"></i></div>
+                    <span>More</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <h3 class="section-title">Recent Transactions</h3>
+        <div class="transaction-list">
+            <!-- Item 1 -->
+            <div class="transaction-item">
+                <div class="t-info">
+                    <div class="t-icon"><i class="fab fa-netflix" style="color: #E50914;"></i></div>
+                    <div class="t-details">
+                        <h4>Netflix Subscription</h4>
+                        <p>Entertainment</p>
+                    </div>
+                </div>
+                <div class="t-amount debit">-$12.99</div>
+            </div>
+            <!-- Item 2 -->
+            <div class="transaction-item">
+                <div class="t-info">
+                    <div class="t-icon"><i class="fas fa-arrow-down" style="color: #2ECC71;"></i></div>
+                    <div class="t-details">
+                        <h4>John Doe</h4>
+                        <p>Transfer</p>
+                    </div>
+                </div>
+                <div class="t-amount credit">+$250.00</div>
+            </div>
+            <!-- Item 3 -->
+            <div class="transaction-item">
+                <div class="t-info">
+                    <div class="t-icon"><i class="fas fa-shopping-bag" style="color: #F39C12;"></i></div>
+                    <div class="t-details">
+                        <h4>Grocery Store</h4>
+                        <p>Shopping</p>
+                    </div>
+                </div>
+                <div class="t-amount debit">-$85.50</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXCHANGE RATES SCREEN -->
+    <section id="rates" class="screen">
+        <div class="sub-header">
+            <button class="back-btn" onclick="showScreen('dashboard')"><i class="fas fa-arrow-left"></i></button>
+            <h2 class="page-title">Exchange</h2>
+        </div>
+
+        <div class="exchange-container">
+            <!-- Illustration -->
+            <div class="exchange-illustration">
+                <i class="fas fa-exchange-alt" style="font-size: 60px; color: var(--primary-color); opacity: 0.8;"></i>
+                <!-- Ideally an image here, but using icon for now as per plan -->
+            </div>
+
+            <div class="exchange-card">
+                <!-- FROM -->
+                <div class="input-label">From</div>
+                <div class="currency-input-group">
+                    <input type="number" id="fromAmount" value="1000" oninput="calculateExchange()">
+                    <div class="currency-select-wrapper">
+                        <select id="fromCurrency" onchange="calculateExchange()">
+                            <option value="USD">USD</option>
+                            <option value="EUR">EUR</option>
+                            <option value="GBP">GBP</option>
+                            <option value="NGN">NGN</option>
+                        </select>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+
+                <!-- SWAP -->
+                <div class="swap-container">
+                    <button class="swap-btn" onclick="swapCurrencies()">
+                        <i class="fas fa-exchange-alt" style="transform: rotate(90deg);"></i>
+                    </button>
+                </div>
+
+                <!-- TO -->
+                <div class="input-label">To</div>
+                <div class="currency-input-group">
+                    <input type="number" id="toAmount" placeholder="Amount" readonly>
+                    <div class="currency-select-wrapper">
+                        <select id="toCurrency" onchange="calculateExchange()">
+                            <option value="KRW">KRW</option>
+                            <option value="USD">USD</option>
+                            <option value="EUR">EUR</option>
+                            <option value="NGN">NGN</option>
+                        </select>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+
+                <div class="rate-info">
+                    <span style="color: var(--primary-color); font-weight: 500;">Currency rate</span>
+                    <span id="rateDisplay" style="color: var(--text-light);">1 USD = 1122 KRW</span>
+                </div>
+            </div>
+
+            <div style="padding: 20px;">
+                <button class="primary" onclick="alert('Exchange Processed!')">Exchange</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRANSFER SCREEN -->
+    <section id="transfer" class="screen">
+        <div class="sub-header">
+            <button class="back-btn" onclick="showScreen('dashboard')"><i class="fas fa-arrow-left"></i></button>
+            <h2 class="page-title">Transfer</h2>
+        </div>
+        <div class="form-group">
+            <input type="number" placeholder="Enter Amount" id="transferAmount">
+            <input type="text" placeholder="Enter Recipient Name" id="transferName">
+            <input type="text" placeholder="Enter Recipient Account Number" id="transferAccountNumber">
+            <button class="primary" onclick="handleTransfer()">Send Money</button>
+        </div>
+    </section>
+
+    <!-- PAY BILL SCREEN -->
+    <section id="pay" class="screen">
+        <div class="sub-header">
+            <button class="back-btn" onclick="showScreen('dashboard')"><i class="fas fa-arrow-left"></i></button>
+            <h2 class="page-title">Pay Bill</h2>
+        </div>
+        <div class="form-group">
+            <label>Select Biller</label>
+            <select id="billType"
+                style="width:100%; overflow-wrap: break-word; padding: 15px; margin-bottom: 15px; border-radius:10px; border:1px solid #ddd;">
+                <option value="Electricity">Electricity</option>
+                <option value="Airtime">Airtime</option>
+                <option value="Data">Data</option>
+                <option value="Betting">Betting</option>
+                <option value="Gotv">Gotv</option>
+                <option value="DStv">DStv</option>
+            </select>
+            <!-- <input type="text" placeholder="Customer ID" id="billCustomerId"> -->
+            <input type="number" placeholder="Amount" id="billAmount">
+            <button class="primary" onclick="handlePayBill()">Pay Now</button>
+        </div>
+    </section>
+
+    <!-- DEPOSIT SCREEN -->
+    <section id="deposit" class="screen">
+        <div class="sub-header">
+            <button class="back-btn" onclick="showScreen('dashboard')"><i class="fas fa-arrow-left"></i></button>
+            <h2 class="page-title">Deposit</h2>
+        </div>
+        <div class="form-group">
+            <div class="balance-card" style="margin-bottom: 20px; background: var(--primary-gradient);">
+                <p class="label">Current Balance</p>
+                <h2 class="balance" id="depositBalanceDisplay">$123,456</h2>
+            </div>
+
+            <label class="input-label">Enter Amount</label>
+            <input type="number" id="depositAmount" placeholder="0.00">
+
+            <label class="input-label">Select Payment Method</label>
+            <div class="payment-methods">
+                <div class="method-item selected" onclick="selectMethod(this)">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Card</span>
+                </div>
+                <div class="method-item" onclick="selectMethod(this)">
+                    <i class="fas fa-university"></i>
+                    <span>Bank</span>
+                </div>
+                <div class="method-item" onclick="selectMethod(this)">
+                    <i class="fab fa-bitcoin"></i>
+                    <span>Crypto</span>
+                </div>
+            </div>
+
+            <button class="primary" onclick="handleDeposit()">Deposit Now</button>
+        </div>
+    </section>
+
+    <!-- MORE SCREEN -->
+    <section id="more" class="screen">
+        <div class="sub-header">
+            <button class="back-btn" onclick="showScreen('dashboard')"><i class="fas fa-arrow-left"></i></button>
+            <h2 class="page-title">More Options</h2>
+        </div>
+        <div class="action-grid" style="box-shadow:none; padding:0 20px;">
+            <!-- Reusing grid items for demo -->
+            <button class="action-item">
+                <div class="icon-box"><i class="fas fa-cog"></i></div>
+                <span>Settings</span>
+            </button>
+            <button class="action-item">
+                <div class="icon-box"><i class="fas fa-user-shield"></i></div>
+                <span>Security</span>
+            </button>
+            <button class="action-item">
+                <div class="icon-box"><i class="fas fa-headset"></i></div>
+                <span>Support</span>
+            </button>
+        </div>
+    </section>
+
+</div>
+
+<script src="script.js"></script>
+
 </body>
 </html>
