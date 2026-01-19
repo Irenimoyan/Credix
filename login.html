@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log in</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Log in to your account</h1>
+
+      <div class="card">
+        <div class="login-with">Login Options</div>
+
+        <!-- Primary login form (email/password) -->
+        <form id="loginForm" class="login-form" novalidate>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" placeholder="••••••••" required minlength="6" />
+          </div>
+
+          <div id="loginError" class="form-error" aria-live="polite" style="color: #c0392b;"></div>
+
+          <div class="form-actions">
+            <button id="loginBtn" type="submit" class="btn-primary">Log In</button>
+          </div>
+        </form>
+
+        <div class="alternate">
+          <p>Or login with phone</p>
+          <div class="phone-input">
+            <span class="flag">🇳🇬</span>
+            <span class="code">+234</span>
+            <input id="phone" type="tel" placeholder="Phone number" />
+            <button id="phoneNext" class="btn-secondary">Next</button>
+          </div>
+        </div>
+
+        <div class="footer-link">
+          <a href="#">Change My Phone Number</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

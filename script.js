@@ -263,4 +263,82 @@ function handlePayBill() {
     showScreen('dashboard');
 }
 
+// --- Mock authentication and login handling ---
+const DEMO_USER = { email: 'admin@test.com', password: 'password123' };
+
+function showLoginError(msg) {
+    const el = document.getElementById('loginError');
+    if (el) el.textContent = msg || '';
+}
+
+function handleLogin() {
+    const emailEl = document.getElementById('email');
+    const passwordEl = document.getElementById('password');
+    if (!emailEl || !passwordEl) return;
+
+    const email = emailEl.value.trim();
+    const password = passwordEl.value;
+
+    if (!email) {
+        showLoginError('Please enter your email');
+        return;
+    }
+    if (!password) {
+        showLoginError('Please enter your password');
+        return;
+    }
+
+    // Try to match against locally stored users (if any)
+    let users = [];
+    try { users = JSON.parse(localStorage.getItem('users') || '[]'); } catch (e) { users = []; }
+
+    const matched = users.find(u => u.email === email && u.password === password);
+
+    if (matched || (email === DEMO_USER.email && password === DEMO_USER.password)) {
+        // Save a simple auth token (demo)
+        localStorage.setItem('credixAuth', JSON.stringify({ email, token: 'demo-token' }));
+
+        // Ensure some initial app data exists for first-time users
+        if (!localStorage.getItem('credixData')) {
+            const initial = { balance: '$0', transactions: '' };
+            localStorage.setItem('credixData', JSON.stringify(initial));
+        }
+
+        // Redirect to dashboard
+        window.location.href = 'dashboard.html';
+        return;
+    }
+
+    showLoginError('Invalid email or password');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Attach login form handler if present
+    const form = document.getElementById('loginForm');
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            showLoginError('');
+            handleLogin();
+        });
+    }
+
+    // Phone quick-login: set auth by phone and redirect
+    const phoneBtn = document.getElementById('phoneNext');
+    if (phoneBtn) {
+        phoneBtn.addEventListener('click', () => {
+            const phone = document.getElementById('phone')?.value?.trim();
+            if (!phone) {
+                showLoginError('Please enter a phone number');
+                return;
+            }
+            localStorage.setItem('credixAuth', JSON.stringify({ phone, token: 'demo-phone-token' }));
+            if (!localStorage.getItem('credixData')) {
+                localStorage.setItem('credixData', JSON.stringify({ balance: '$0', transactions: '' }));
+            }
+            window.location.href = 'dashboard.html';
+        });
+    }
+});
+
 
