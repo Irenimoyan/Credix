@@ -382,3 +382,135 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+
+// Signup Logic
+function showSignupError(msg) {
+    const el = document.getElementById('signupError');
+    if (el) el.textContent = msg || '';
+}
+
+function handleSignup() {
+    const fullnameEl = document.getElementById('fullname');
+    const emailEl = document.getElementById('email');
+    const phoneEl = document.getElementById('phone');
+    const passwordEl = document.getElementById('password');
+    const confirmPasswordEl = document.getElementById('confirmPassword');
+    const termsEl = document.getElementById('terms');
+
+    if (!fullnameEl || !emailEl || !phoneEl || !passwordEl || !confirmPasswordEl || !termsEl) return;
+
+    const fullname = fullnameEl.value.trim();
+    const email = emailEl.value.trim();
+    const phone = phoneEl.value.trim();
+    const password = passwordEl.value;
+    const confirmPassword = confirmPasswordEl.value;
+    const termsAccepted = termsEl.checked;
+
+    // Validation
+    if (!fullname) {
+        showSignupError('Please enter your full name');
+        return;
+    }
+    if (!email) {
+        showSignupError('Please enter your email');
+        return;
+    }
+    if (!phone) {
+        showSignupError('Please enter your phone number');
+        return;
+    }
+    if (!password) {
+        showSignupError('Please enter a password (minimum 6 characters)');
+        return;
+    }
+    if (password.length < 6) {
+        showSignupError('Password must be at least 6 characters long');
+        return;
+    }
+    if (password !== confirmPassword) {
+        showSignupError('Passwords do not match');
+        return;
+    }
+    if (!termsAccepted) {
+        showSignupError('You must accept the Terms and Conditions');
+        return;
+    }
+
+    // Check if user already exists
+    let users = [];
+    try { 
+        users = JSON.parse(localStorage.getItem('users') || '[]'); 
+    } catch (e) { 
+        users = []; 
+    }
+
+    const userExists = users.find(u => u.email === email);
+    if (userExists) {
+        showSignupError('Email already registered. Please log in instead.');
+        return;
+    }
+
+    // Create new user
+    const newUser = {
+        id: Date.now(),
+        fullname,
+        email,
+        phone: '+234' + phone,
+        password,
+        createdAt: new Date().toISOString()
+    };
+
+    // Save user to localStorage
+    users.push(newUser);
+    localStorage.setItem('users', JSON.stringify(users));
+
+    // Auto-login the user
+    localStorage.setItem('credixAuth', JSON.stringify({ 
+        email, 
+        fullname,
+        token: 'demo-token-' + Date.now() 
+    }));
+
+    // Initialize user's app data
+    localStorage.setItem('credixData', JSON.stringify({ 
+        balance: '$0', 
+        transactions: '' 
+    }));
+
+    // Show success and redirect to dashboard
+    alert(`Welcome ${fullname}! Your account has been created successfully.`);
+    window.location.href = 'dashboard.html';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('signupForm');
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            showSignupError('');
+            handleSignup();
+        });
+    }
+});
+
+// Password Visibility Toggle
+document.addEventListener('DOMContentLoaded', () => {
+    const toggles = document.querySelectorAll('.toggle-password');
+    
+    toggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            // Find the input associated with this toggle
+            const input = this.previousElementSibling;
+            
+            if (input && input.tagName === 'INPUT') {
+                // Toggle type
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                
+                // Toggle icon
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            }
+        });
+    });
+});

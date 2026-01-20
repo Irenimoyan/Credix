@@ -20,36 +20,38 @@
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #e0e5ec;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: var(--bg-color);
     min-height: 100vh;
-    overscroll-behavior: none;
+    color: var(--text-color);
 }
 
-.phone {
-    width: 375px;
-    height: 812px; /* iPhone X dimensions */
+.app-container {
+    width: 100%;
+    min-height: 100vh;
     background-color: var(--bg-color);
-    border-radius: 10px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-    /* overflow:hidden; */
     position: relative;
     display: flex;
     flex-direction: column;
-    overscroll-behavior: none;
+}
+
+/* Container for content to constrain width on large screens */
+.content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 /* Header */
 header {
-    padding: 40px 20px 20px;
+    padding: 20px;
     background-color: transparent;
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
-    /* z-index: 1; */
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
 }
 
 header h1 {
@@ -112,7 +114,11 @@ header h1 {
     position: relative;
     z-index: 1;
     padding: 0 20px;
-    margin-top: 60px; /* Space for status bar/header */
+    margin-top: 40px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
 }
 
 /* Balance Card */
@@ -340,13 +346,13 @@ header h1 {
 }
 
 /* Forms */
-.form-group {
-    padding: 20px;
-}
+/* .form-group {
+    padding: 2px;
+} */
 input {
     width: 100%;
     padding: 15px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 10px;
     outline: none;
@@ -524,7 +530,7 @@ button.primary {
     max-width: 94%;
     background: var(--white);
     border-radius: 20px;
-    padding: 28px;
+    padding: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     color: var(--text-color);
 }
@@ -537,7 +543,7 @@ button.primary {
 .login-with {
     font-size: 14px;
     color: var(--text-light);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     font-weight: 600;
 }
 
@@ -548,20 +554,20 @@ button.primary {
 }
 
 .form-group {
-    padding: 0 20px 10px;
+    padding: 0 20px 5px;
 }
 
 .form-group label {
     display: block;
     font-size: 13px;
     color: var(--text-light);
-    margin-bottom: 6px;
-    font-weight: 600;
+    margin-bottom: 4px;
+    font-weight: 500;
 }
 
 input[type="email"], input[type="password"], input[type="tel"] {
     width: 100%;
-    padding: 12px 14px;
+    padding: 10px 12px;
     border: 1px solid #eee;
     border-radius: 10px;
     outline: none;
@@ -575,7 +581,7 @@ input:focus {
 }
 
 .form-actions {
-    padding: 12px 20px 20px;
+    padding: 10px 20px 15px;
 }
 
 .btn-primary {
@@ -595,6 +601,33 @@ input:focus {
     transform: translateY(-1px);
 }
 
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    padding-right: 40px; /* Make space for icon */
+    margin-bottom: 0; /* Reset margin for wrapper context if needed */
+}
+
+/* Specific fix: if inputs inside wrapper need bottom margin, apply to wrapper instead */
+.form-group .password-wrapper {
+    margin-bottom: 15px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--text-light);
+    font-size: 16px;
+    z-index: 2;
+}
+
 .btn-secondary {
     padding: 10px 12px;
     margin-left: 8px;
@@ -605,14 +638,14 @@ input:focus {
 }
 
 .alternate {
-    padding: 14px 20px 0;
+    padding: 10px 20px 0;
     color: var(--text-light);
     font-size: 14px;
 }
 
 .phone-input {
     display: flex;
-    gap: 8px;
+    /* gap: 8px; */
     align-items: center;
     margin-top: 8px;
 }
@@ -635,7 +668,7 @@ input:focus {
 }
 
 .footer-link {
-    padding: 18px 20px 0;
+    padding: 15px 20px 0;
     text-align: center;
 }
 
@@ -652,7 +685,7 @@ input:focus {
 
 /* Signup Form Styles */
 .checkbox-group {
-    padding: 0 20px 10px !important;
+    padding: 0 20px 5px !important;
 }
 
 .checkbox-label {
@@ -729,6 +762,327 @@ input:focus {
     margin: 0;
 }
 
+/* Center Auth Pages */
+body.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--bg-color);
+    padding: 20px;
+}
+
 @media (max-width: 420px) {
     .container { width: 92%; padding: 20px; border-radius: 16px; }
+}
+
+/* ----------------------------
+   Landing Page Styles
+   ---------------------------- */
+
+/* Reset body centering for landing page */
+body.landing-page {
+    display: block;
+    background-color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding: 0; /* Override any body padding */
+}
+
+.container-landing {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Nav */
+.landing-nav {
+    padding: 20px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.landing-nav .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.landing-nav .logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    color: var(--primary-dark);
+    font-weight: 700;
+    margin: 0;
+}
+
+.landing-nav .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    text-decoration: none;
+}
+
+.landing-nav .nav-link {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.landing-nav .nav-btn {
+    padding: 10px 24px;
+    box-shadow: none;
+    width: auto;
+    display: inline-block;
+}
+
+/* Hero */
+.landing-hero {
+    padding: 180px 20px 80px;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.landing-hero h1 {
+    font-size: 56px;
+    line-height: 1.1;
+    font-weight: 800;
+    color: var(--text-color);
+    margin-bottom: 24px;
+    letter-spacing: -1px;
+    font-family: 'Inter', sans-serif; /* Override Orbitron if set on h1 global */
+}
+
+.landing-hero p {
+    font-size: 20px;
+    color: var(--text-light);
+    margin-bottom: 40px;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.gradient-text {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 60px;
+}
+
+.hero-btn {
+    width: auto;
+    padding: 15px 32px;
+    font-size: 16px;
+    display: block;
+    text-decoration: none;
+    text-align: center;
+}
+
+/* Phone Mockup */
+.phone-mockup {
+    width: 300px;
+    height: 600px;
+    background: var(--text-color);
+    border-radius: 40px;
+    margin: 0 auto;
+    border: 12px solid #333;
+    position: relative;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+.screen-content {
+    width: 100%;
+    height: 100%;
+    background: var(--primary-gradient);
+    opacity: 0.1;
+    position: relative;
+}
+
+.screen-content::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    height: 150px;
+    background: white;
+    border-radius: 15px;
+    opacity: 0.8;
+}
+
+.screen-content::after {
+    content: '';
+    position: absolute;
+    top: 190px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    background: white;
+    border-radius: 15px 15px 0 0;
+    opacity: 0.8;
+}
+
+.hero-image img{
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+/* Features */
+.features {
+    padding: 80px 0;
+    background: #fafafa;
+}
+
+.features .container-landing {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.feature-card {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-card .icon-box {
+    margin: 0 auto 20px;
+    width: 70px;
+    height: 70px;
+    font-size: 28px;
+    border-radius: 20px;
+    background-color: #E8F5E9; /* Restore icon box bg */
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feature-card h3 {
+    font-size: 20px;
+    margin-bottom: 12px;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.feature-card p {
+    color: var(--text-light);
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+/* Footer */
+.landing-footer {
+    padding: 40px 0;
+    text-align: center;
+    color: var(--text-light);
+    font-size: 14px;
+    background: white;
+    border-top: 1px solid #f0f0f0;
+}
+
+@media (max-width: 768px) {
+    .landing-hero h1 {
+        font-size: 36px;
+    }
+    
+    .landing-hero {
+        padding-top: 120px;
+    }
+    
+    .landing-nav .nav-container {
+        padding: 0 15px;
+    }
+}
+
+@media (min-width: 768px) {
+    .action-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 20px;
+    }
+
+    .transaction-list {
+        border-radius: var(--border-radius);
+        margin-bottom: 20px;
+    }
+
+    .dashboard-header-bg {
+        height: 300px;
+        border-radius: 0 0 50px 50px;
+    }
+
+    .balance-card {
+        padding: 40px;
+    }
+
+    .balance-card .balance {
+        font-size: 48px;
+    }
+}
+
+@media (min-width: 768px) {
+    .form-group, .exchange-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: var(--white);
+        border-radius: var(--border-radius);
+        padding: 40px;
+        box-shadow: var(--shadow);
+    }
+
+    .sub-header {
+        max-width: 600px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .landing-hero {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        text-align: left;
+        gap: 40px;
+        max-width: 1200px;
+    }
+
+    .hero-content, .hero-image {
+        flex: 1;
+    }
+
+    .landing-hero p {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .hero-buttons {
+        justify-content: flex-start;
+    }
 }
