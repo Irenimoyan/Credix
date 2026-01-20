@@ -339,6 +339,46 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = 'dashboard.html';
         });
     }
+
+    // Forgot password form handler (uses same styles and local redirect)
+    const forgotForm = document.getElementById('forgotForm');
+    if (forgotForm) {
+        const forgotMessage = document.getElementById('forgotMessage');
+        forgotForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (forgotMessage) forgotMessage.textContent = '';
+
+            const email = document.getElementById('forgotEmail')?.value?.trim() || '';
+            if (!email) {
+                if (forgotMessage) {
+                    forgotMessage.style.color = '#c0392b';
+                    forgotMessage.textContent = 'Please enter your email address';
+                }
+                return;
+            }
+
+            const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\\.,;:\s@\"]+\.)+[^<>()[\]\\.,;:\s@\"]{2,})$/i;
+            if (!re.test(email)) {
+                if (forgotMessage) {
+                    forgotMessage.style.color = '#c0392b';
+                    forgotMessage.textContent = 'Please enter a valid email address';
+                }
+                return;
+            }
+
+            // Simulate sending reset link
+            if (forgotMessage) {
+                forgotMessage.style.color = 'var(--primary-dark)';
+                forgotMessage.textContent = 'If that email exists, a reset link has been sent.';
+            }
+
+            localStorage.setItem('credixPasswordReset', JSON.stringify({ identifier: email, sentAt: Date.now() }));
+
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1800);
+        });
+    }
 });
 
 
