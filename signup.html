@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - Credix</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>Create your account</h1>
+
+        <div class="card">
+            <div class="login-with">Sign Up</div>
+
+            <!-- Primary signup form -->
+            <form id="signupForm" class="login-form" novalidate>
+                <!-- Full Name -->
+                <div class="form-group">
+                    <label for="fullname">Full Name</label>
+                    <input 
+                        id="fullname" 
+                        name="fullname" 
+                        type="text" 
+                        placeholder="John Doe" 
+                        required 
+                    />
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input 
+                        id="email" 
+                        name="email" 
+                        type="email" 
+                        placeholder="you@example.com" 
+                        required 
+                    />
+                </div>
+
+                <!-- Phone Number -->
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <div class="phone-input">
+                        <span class="flag">🇳🇬</span>
+                        <span class="code">+234</span>
+                        <input 
+                            id="phone" 
+                            name="phone" 
+                            type="tel" 
+                            placeholder="Phone number" 
+                            required 
+                        />
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        id="password" 
+                        name="password" 
+                        type="password" 
+                        placeholder="••••••••" 
+                        required 
+                        minlength="6" 
+                    />
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input 
+                        id="confirmPassword" 
+                        name="confirmPassword" 
+                        type="password" 
+                        placeholder="••••••••" 
+                        required 
+                        minlength="6" 
+                    />
+                </div>
+
+                <!-- Terms and Conditions -->
+                <div class="form-group checkbox-group">
+                    <label for="terms" class="checkbox-label">
+                        <input 
+                            id="terms" 
+                            name="terms" 
+                            type="checkbox" 
+                            required 
+                        />
+                        <span>I agree to the <a href="#">Terms and Conditions</a></span>
+                    </label>
+                </div>
+
+                <!-- Error Message -->
+                <div id="signupError" class="form-error" aria-live="polite" style="color: #c0392b;"></div>
+
+                <!-- Sign Up Button -->
+                <div class="form-actions">
+                    <button id="signupBtn" type="submit" class="btn-primary">Create Account</button>
+                </div>
+            </form>
+
+            <!-- Login Link -->
+            <div class="footer-link">
+                <p>Already have an account? <a href="login.html">Log In</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add FontAwesome for icons if needed -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="script.js"></script>
+    <script>
+        // Sign-up validation and registration handler
+        function showSignupError(msg) {
+            const el = document.getElementById('signupError');
+            if (el) el.textContent = msg || '';
+        }
+
+        function handleSignup() {
+            const fullnameEl = document.getElementById('fullname');
+            const emailEl = document.getElementById('email');
+            const phoneEl = document.getElementById('phone');
+            const passwordEl = document.getElementById('password');
+            const confirmPasswordEl = document.getElementById('confirmPassword');
+            const termsEl = document.getElementById('terms');
+
+            if (!fullnameEl || !emailEl || !phoneEl || !passwordEl || !confirmPasswordEl || !termsEl) return;
+
+            const fullname = fullnameEl.value.trim();
+            const email = emailEl.value.trim();
+            const phone = phoneEl.value.trim();
+            const password = passwordEl.value;
+            const confirmPassword = confirmPasswordEl.value;
+            const termsAccepted = termsEl.checked;
+
+            // Validation
+            if (!fullname) {
+                showSignupError('Please enter your full name');
+                return;
+            }
+            if (!email) {
+                showSignupError('Please enter your email');
+                return;
+            }
+            if (!phone) {
+                showSignupError('Please enter your phone number');
+                return;
+            }
+            if (!password) {
+                showSignupError('Please enter a password (minimum 6 characters)');
+                return;
+            }
+            if (password.length < 6) {
+                showSignupError('Password must be at least 6 characters long');
+                return;
+            }
+            if (password !== confirmPassword) {
+                showSignupError('Passwords do not match');
+                return;
+            }
+            if (!termsAccepted) {
+                showSignupError('You must accept the Terms and Conditions');
+                return;
+            }
+
+            // Check if user already exists
+            let users = [];
+            try { 
+                users = JSON.parse(localStorage.getItem('users') || '[]'); 
+            } catch (e) { 
+                users = []; 
+            }
+
+            const userExists = users.find(u => u.email === email);
+            if (userExists) {
+                showSignupError('Email already registered. Please log in instead.');
+                return;
+            }
+
+            // Create new user
+            const newUser = {
+                id: Date.now(),
+                fullname,
+                email,
+                phone: '+234' + phone,
+                password,
+                createdAt: new Date().toISOString()
+            };
+
+            // Save user to localStorage
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            // Auto-login the user
+            localStorage.setItem('credixAuth', JSON.stringify({ 
+                email, 
+                fullname,
+                token: 'demo-token-' + Date.now() 
+            }));
+
+            // Initialize user's app data
+            localStorage.setItem('credixData', JSON.stringify({ 
+                balance: '$0', 
+                transactions: '' 
+            }));
+
+            // Show success and redirect to dashboard
+            alert(`Welcome ${fullname}! Your account has been created successfully.`);
+            window.location.href = 'dashboard.html';
+        }
+
+        // Attach form handler
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('signupForm');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    showSignupError('');
+                    handleSignup();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
