@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nosifer&family=Orbitron:wght@400..900&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Nosifer&family=Orbitron:wght@400..900&display=swap');
 
 :root {
     --primary-color: #2ECC71;
@@ -981,7 +981,7 @@ body.landing-page {
     border-radius: 20px;
     background-color: #E8F5E9; /* Restore icon box bg */
     color: var(--primary-dark);
-    display: flex;
+    /* display: flex; */
     align-items: center;
     justify-content: center;
 }
@@ -1085,4 +1085,112 @@ body.landing-page {
     .hero-buttons {
         justify-content: flex-start;
     }
+}
+
+/* Password Visibility Toggle */
+.password-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px; /* Maintain vertical spacing */
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 40px; /* Space for the eye icon */
+    margin-bottom: 0; /* Override default margin if needed */
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--text-light);
+    font-size: 16px;
+    z-index: 2;
+}
+
+.toggle-password:hover {
+    color: var(--primary-color);
+}
+
+/* Utility classes for inline style migration */
+
+/* Dashboard Header */
+.notification-wrapper {
+    position: relative;
+}
+
+.notification-icon {
+    color: white;
+    font-size: 20px;
+}
+
+.notification-dot {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #FF5252;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+/* Balance Card */
+.card-brand {
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* Icons Colors */
+.text-red { color: #E50914; }
+.text-green { color: #2ECC71; }
+.text-orange { color: #F39C12; }
+.text-white { color: white; }
+
+/* Exchange Screen */
+.exchange-icon-large {
+    font-size: 60px;
+    color: var(--primary-color);
+    opacity: 0.8;
+}
+
+.rotate-90 {
+    transform: rotate(90deg);
+}
+
+.rate-label {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.rate-value {
+    color: var(--text-light);
+}
+
+.exchange-actions {
+    padding: 20px;
+}
+
+/* Forms */
+.form-select {
+    width: 100%;
+    overflow-wrap: break-word;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Deposit */
+.deposit-balance-card {
+    margin-bottom: 20px;
+    background: var(--primary-gradient);
+}
+
+/* More Options */
+.action-grid-flat {
+    box-shadow: none;
+    padding: 0 20px;
 }

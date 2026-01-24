@@ -125,7 +125,7 @@ function addTransaction(type, name, category, amount) {
                 <p>${category}</p>
             </div>
         </div>
-        <div class="t-amount ${amountClass}">${sign}$${amount.toFixed(2)}</div>
+        <div class="t-amount ${amountClass}">${sign}₦${amount.toFixed(2)}</div>
     </div>
     `;
 
@@ -138,7 +138,7 @@ function updateBalance(newBalance) {
      const dashboardBalance = document.getElementById('balance');
      const depositBalance = document.getElementById('depositBalanceDisplay');
 
-     let formattedBalance = '$' + newBalance.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+     let formattedBalance = '₦' + newBalance.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
 
      dashboardBalance.innerText = formattedBalance;
      depositBalance.innerText = formattedBalance;
@@ -158,7 +158,7 @@ function handleDeposit() {
 
     // Get current balance elements
     const dashboardBalance = document.getElementById('balance');
-    let currentBalance = parseFloat(dashboardBalance.innerText.replace(/[$,]/g, ''));
+    let currentBalance = parseFloat(dashboardBalance.innerText.replace(/[₦,]/g, ''));
     
     // Add deposit
     let newBalance = currentBalance + amount;
@@ -174,29 +174,29 @@ function handleDeposit() {
     amountInput.value = '';
 
     // Show success and redirect
-    alert(`Successfully deposited $${amount}!`);
+    alert(`Successfully deposited ₦${amount}!`);
     showScreen('dashboard');
 }
 
 function handleTransfer() {
     const amountInput = document.getElementById('transferAmount');
-    const nameInput = document.getElementById('transferName');
+    const bankInput = document.getElementById('transferBank');
     
     const amount = parseFloat(amountInput.value);
-    const name = nameInput.value;
+    const bankName = bankInput.value;
 
     if (isNaN(amount) || amount <= 0) {
         alert('Please enter a valid amount');
         return;
     }
-    if (!name) {
-        alert('Please enter recipient name');
+    if (!bankName) {
+        alert('Please select a bank');
         return;
     }
 
     // Get current balance elements
     const dashboardBalance = document.getElementById('balance');
-    let currentBalance = parseFloat(dashboardBalance.innerText.replace(/[$,]/g, ''));
+    let currentBalance = parseFloat(dashboardBalance.innerText.replace(/[₦,]/g, ''));
 
     // Check availability
     if (currentBalance < amount) {
@@ -211,16 +211,16 @@ function handleTransfer() {
     updateBalance(newBalance);
 
     // Log Transaction
-    addTransaction('debit', name, 'Transfer', amount);
+    addTransaction('debit', bankName, 'Transfer', amount);
     saveData(); // Save again to capture transaction
 
     // Reset inputs
     amountInput.value = '';
-    nameInput.value = '';
+    bankInput.value = '';
     document.getElementById('transferAccountNumber').value = '';
 
     // Show success and redirect
-    alert(`Successfully sent $${amount} to ${name}!`);
+    alert(`Successfully sent ₦${amount} to ${bankName}!`);
     showScreen('dashboard');
 }
 
@@ -242,7 +242,7 @@ function handlePayBill() {
     }
 
     const dashboardBalance = document.getElementById('balance');
-    let currentBalance = parseFloat(dashboardBalance.innerText.replace(/[$,]/g, ''));
+    let currentBalance = parseFloat(dashboardBalance.innerText.replace(/[₦,]/g, ''));
 
     if (currentBalance < amount) {
         alert('Insufficient funds!');
@@ -259,7 +259,7 @@ function handlePayBill() {
     amountInput.value = '';
     customerIdInput.value = '';
 
-    alert(`Successfully paid $${amount} for ${billType}!`);
+    alert(`Successfully paid ₦${amount} for ${billType}!`);
     showScreen('dashboard');
 }
 
@@ -300,7 +300,7 @@ function handleLogin() {
 
         // Ensure some initial app data exists for first-time users
         if (!localStorage.getItem('credixData')) {
-            const initial = { balance: '$0', transactions: '' };
+            const initial = { balance: '₦0', transactions: '' };
             localStorage.setItem('credixData', JSON.stringify(initial));
         }
 
@@ -334,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             localStorage.setItem('credixAuth', JSON.stringify({ phone, token: 'demo-phone-token' }));
             if (!localStorage.getItem('credixData')) {
-                localStorage.setItem('credixData', JSON.stringify({ balance: '$0', transactions: '' }));
+                localStorage.setItem('credixData', JSON.stringify({ balance: '₦0', transactions: '' }));
             }
             window.location.href = 'dashboard.html';
         });
@@ -473,7 +473,7 @@ function handleSignup() {
 
     // Initialize user's app data
     localStorage.setItem('credixData', JSON.stringify({ 
-        balance: '$0', 
+        balance: '₦0', 
         transactions: '' 
     }));
 

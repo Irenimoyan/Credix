@@ -18,10 +18,9 @@
 
         <header>
             <h1 class="logo">CREDIX</h1>
-            <div style="position: relative;">
-                <i class="fas fa-bell" style="color: white; font-size: 20px;"></i>
-                <span
-                    style="position: absolute; top: -5px; right: -5px; background: #FF5252; width: 10px; height: 10px; border-radius: 50%;"></span>
+            <div class="notification-wrapper">
+                <i class="fas fa-bell notification-icon"></i>
+                <span class="notification-dot"></span>
             </div>
         </header>
 
@@ -29,10 +28,10 @@
             <!-- Balance Card -->
             <div class="balance-card">
                 <p class="label">Available balance</p>
-                <h2 class="balance" id="balance">$123,456</h2>
+                <h2 class="balance" id="balance">₦123,456</h2>
                 <div class="card-footer">
                     <span>**** 1234</span>
-                    <span style="font-weight:bold; font-style:italic;">VISA</span>
+                    <span class="card-brand">VISA</span>
                 </div>
             </div>
 
@@ -71,35 +70,35 @@
             <!-- Item 1 -->
             <div class="transaction-item">
                 <div class="t-info">
-                    <div class="t-icon"><i class="fab fa-netflix" style="color: #E50914;"></i></div>
+                    <div class="t-icon"><i class="fab fa-netflix text-red"></i></div>
                     <div class="t-details">
                         <h4>Netflix Subscription</h4>
                         <p>Entertainment</p>
                     </div>
                 </div>
-                <div class="t-amount debit">-$12.99</div>
+                <div class="t-amount debit">-₦12.99</div>
             </div>
             <!-- Item 2 -->
             <div class="transaction-item">
                 <div class="t-info">
-                    <div class="t-icon"><i class="fas fa-arrow-down" style="color: #2ECC71;"></i></div>
+                    <div class="t-icon"><i class="fas fa-arrow-down text-green"></i></div>
                     <div class="t-details">
                         <h4>John Doe</h4>
                         <p>Transfer</p>
                     </div>
                 </div>
-                <div class="t-amount credit">+$250.00</div>
+                <div class="t-amount credit">+₦250.00</div>
             </div>
             <!-- Item 3 -->
             <div class="transaction-item">
                 <div class="t-info">
-                    <div class="t-icon"><i class="fas fa-shopping-bag" style="color: #F39C12;"></i></div>
+                    <div class="t-icon"><i class="fas fa-shopping-bag text-orange"></i></div>
                     <div class="t-details">
                         <h4>Grocery Store</h4>
                         <p>Shopping</p>
                     </div>
                 </div>
-                <div class="t-amount debit">-$85.50</div>
+                <div class="t-amount debit">-₦85.50</div>
             </div>
         </div>
     </section>
@@ -114,7 +113,7 @@
         <div class="exchange-container">
             <!-- Illustration -->
             <div class="exchange-illustration">
-                <i class="fas fa-exchange-alt" style="font-size: 60px; color: var(--primary-color); opacity: 0.8;"></i>
+                <i class="fas fa-exchange-alt exchange-icon-large"></i>
                 <!-- Ideally an image here, but using icon for now as per plan -->
             </div>
 
@@ -137,7 +136,7 @@
                 <!-- SWAP -->
                 <div class="swap-container">
                     <button class="swap-btn" onclick="swapCurrencies()">
-                        <i class="fas fa-exchange-alt" style="transform: rotate(90deg);"></i>
+                        <i class="fas fa-exchange-alt rotate-90"></i>
                     </button>
                 </div>
 
@@ -157,12 +156,12 @@
                 </div>
 
                 <div class="rate-info">
-                    <span style="color: var(--primary-color); font-weight: 500;">Currency rate</span>
-                    <span id="rateDisplay" style="color: var(--text-light);">1 USD = 1122 KRW</span>
+                    <span class="rate-label">Currency rate</span>
+                    <span id="rateDisplay" class="rate-value">1 USD = 1122 KRW</span>
                 </div>
             </div>
 
-            <div style="padding: 20px;">
+            <div class="exchange-actions">
                 <button class="primary" onclick="alert('Exchange Processed!')">Exchange</button>
             </div>
         </div>
@@ -176,7 +175,15 @@
         </div>
         <div class="form-group">
             <input type="number" placeholder="Enter Amount" id="transferAmount">
-            <input type="text" placeholder="Enter Recipient Name" id="transferName">
+            <!-- <input type="text" placeholder="Enter Recipient Name" id="transferName"> -->
+            <select id="transferBank" class="form-select">
+                <option value="" disabled selected>Select Bank</option>
+                <option value="Access Bank">Access Bank</option>
+                <option value="GTBank">GTBank</option>
+                <option value="Zenith Bank">Zenith Bank</option>
+                <option value="First Bank">First Bank</option>
+                <option value="UBA">UBA</option>
+            </select>
             <input type="text" placeholder="Enter Recipient Account Number" id="transferAccountNumber">
             <button class="primary" onclick="handleTransfer()">Send Money</button>
         </div>
@@ -190,8 +197,7 @@
         </div>
         <div class="form-group">
             <label>Select Biller</label>
-            <select id="billType"
-                style="width:100%; overflow-wrap: break-word; padding: 15px; margin-bottom: 15px; border-radius:10px; border:1px solid #ddd;">
+            <select id="billType" class="form-select">
                 <option value="Electricity">Electricity</option>
                 <option value="Airtime">Airtime</option>
                 <option value="Data">Data</option>
@@ -212,9 +218,9 @@
             <h2 class="page-title">Deposit</h2>
         </div>
         <div class="form-group">
-            <div class="balance-card" style="margin-bottom: 20px; background: var(--primary-gradient);">
+            <div class="balance-card deposit-balance-card">
                 <p class="label">Current Balance</p>
-                <h2 class="balance" id="depositBalanceDisplay">$123,456</h2>
+                <h2 class="balance" id="depositBalanceDisplay">₦123,456</h2>
             </div>
 
             <label class="input-label">Enter Amount</label>
@@ -246,7 +252,7 @@
             <button class="back-btn" onclick="showScreen('dashboard')"><i class="fas fa-arrow-left"></i></button>
             <h2 class="page-title">More Options</h2>
         </div>
-        <div class="action-grid" style="box-shadow:none; padding:0 20px;">
+        <div class="action-grid action-grid-flat">
             <!-- Reusing grid items for demo -->
             <button class="action-item">
                 <div class="icon-box"><i class="fas fa-cog"></i></div>
